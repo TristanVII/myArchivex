@@ -1,6 +1,13 @@
 Rails.application.routes.draw do
-  resource :session
+  resource :session, except: %i[ new ]
+  get "login", to: "sessions#new", as: :new_session
+
   resources :passwords, param: :token
+
+  # User Registration Routes
+  get "register", to: "users#new", as: :register
+  resources :users, only: [ :create ] # We only need the POST /users route from resources
+
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
